@@ -1,20 +1,13 @@
 # Extendible Hashing Simulator
+	A program that simulates Extendible Hashing written in Java
 
-## TO-DO
-* Insert Method Simulation: - Done
-	- Compute Key Hash
-	- Get Bucket
-	- Split Bucket ? Split Bucket and Insert Key : Insert Key
-	- Display Final Result
-* Search Method Simulation: - Done
-	- Compute Key Hash
-	- Get Bucket
-	- Find Key Index ? Print Key : Print Not Exists
+## Running the program:
+* Clone the project to a directory of choice using `git clone https://github.com/karthikrangasai/Extendible-Hashing-Simulator.git`
+* To use the CLI, run `./script.sh`
+* To use the GUI, run `./gui_script.sh`
 
-## Imporvements
-* Delete Method Simulation: 
-	- Search Key and Exists ? Continue : Print not Exists
-	- Set to Zero
-	- Check Empty ? Merge Buckets : Shift other values to left
-	- Display Final Result
-* Make a User Input Object Definable Type and add value of Object type based on key
+## Inputs for the CLI Mode:
+* Initially input the parameters of the program: `Blocking_Factor Global_Deth Local_Depth Number_to_Hash_key_with`
+* Then you can input: `Key Operation`
+	- Keys are Integers
+	- Operations are I : Insert, D : delete, S : Search
