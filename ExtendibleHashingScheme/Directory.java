@@ -30,34 +30,34 @@ public class Directory{
 	}
 
 	public void insertKey(int key){
-		System.out.println("For key " + key + ": ");
+		// System.out.println("For key " + key + ": ");
 		int h = key % modGrouper;
 		DirectoryRecord r = this.getDirectoryRecord(h);
 		Bucket b = r.getBucket();
 		this.hashvalue = Utils.trimToDepth(Utils.generateBitString(h), this.globalDepth);
 		this.currentBucket = b.toString();
-		System.out.println("	Bucket is: " + b);
+		// System.out.println("	Bucket is: " + b);
 		if(b.canInsertKey()){
-			System.out.println("	Can Insert Key.");
+			// System.out.println("	Can Insert Key.");
 			b.insertKey(key);
-			System.out.println("	After inserting Key: " + b);
+			// System.out.println("	After inserting Key: " + b);
 		} else {
-			System.out.println("	Cannot Insert Key.");
+			// System.out.println("	Cannot Insert Key.");
 			// if(this.dataFile.numberOfBuckets() >= Math.pow(2, globalDepth)){
 			if(b.getLocalDepth() >= globalDepth){
 				++this.globalDepth;
 				this.generateFileDirectory();
 			}
 			Bucket newBucket = b.splitBucket(modGrouper);
-			System.out.println("	Old Bucket: " + b);
-			System.out.println("	New Bucket: " + newBucket);
+			// System.out.println("	Old Bucket: " + b);
+			// System.out.println("	New Bucket: " + newBucket);
 			if(b.getLocalHashValue().equals(Utils.trimToDepth(Utils.generateBitString(h), b.getLocalDepth()))){
 				b.insertKey(key);
 			} else {
 				newBucket.insertKey(key);
 			}
-			System.out.println("	Old Bucket: " + b);
-			System.out.println("	New Bucket: " + newBucket);
+			// System.out.println("	Old Bucket: " + b);
+			// System.out.println("	New Bucket: " + newBucket);
 			this.dataFile.addBucket(newBucket);
 			this.generateFileDirectory();
 		}

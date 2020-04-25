@@ -151,7 +151,7 @@ public class EHS{
         bucketName.setBounds(480, 200, 150, 30);
 
 		pane.add(info);
-		info.setBounds(150, 250, 400, 150);
+		info.setBounds(150, 250, 400, 350);
 
         
 		// Set bounds = x, y, width, height
@@ -173,7 +173,7 @@ public class EHS{
 
         Insets insets = frame.getInsets();
         // frame.setSize(300 + insets.left + insets.right, 125 + insets.top + insets.bottom);
-		frame.setSize(720, 480);
+		frame.setSize(720, 720);
         frame.setVisible(true);
 	}
 

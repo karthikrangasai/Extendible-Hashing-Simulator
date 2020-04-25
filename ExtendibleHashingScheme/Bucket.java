@@ -49,8 +49,12 @@ class Bucket{
 	}
 
 	protected void insertKey(int key){
-		++this.currentIndex;
-		this.keys[this.currentIndex] = key;
+		try {
+			++this.currentIndex;
+			this.keys[this.currentIndex] = key;
+		} catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("Please choose appropriate sequence of keys or change the blocking factor.");
+		}
 	}
 
 	protected Bucket splitBucket(){
