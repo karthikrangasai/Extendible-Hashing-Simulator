@@ -3,9 +3,18 @@ package ExtendibleHashingScheme;
 import java.util.*;
 
 /**
+* This class represents a file in the OS which is divided into many blocks. 
+* Here we have chosen each block to be equal to a bucket.
+* @author Karthik Rangasai
 */
 class DataFile{
+	/**
+	* The numbers of keys that can be stored in a Bucket.
+	*/
 	int blockingFactor;
+	/**
+	* The list of the buckets that belong to this file.
+	*/
 	ArrayList<Bucket> dataFileBuckets;
 
 	protected DataFile(int blockingFactor, int localDepth){
@@ -25,7 +34,7 @@ class DataFile{
 				this.dataFileBuckets.add(b);
 			}
 		}
-		Utils.sortBuckets(this.dataFileBuckets);
+		this.sortBuckets(this.dataFileBuckets);
 	}
 
 	// protected void insertKey(int key){
@@ -42,23 +51,37 @@ class DataFile{
 	// 					newBucket.insertKey(key);
 	// 				}
 	// 				this.dataFileBuckets.add(newBucket);
-	// 				Utils.sortBuckets(this.dataFileBuckets);
+	// 				this.sortBuckets(this.dataFileBuckets);
 	// 			}
 	// 		}
 	// 	}
 	// }
 
+	/**
+	* Adds a new Bucket to the list of the Buckets to this File.
+	* @param newBucket Bucket to be added to the list.
+	*/
 	protected void addBucket(Bucket newBucket){
 		this.dataFileBuckets.add(newBucket);
-		Utils.sortBuckets(this.dataFileBuckets);
+		this.sortBuckets(this.dataFileBuckets);
 	}
 
+	/**
+	* Merges an Empty Bucket to the Bucket it was split from.
+	* @param emptyBucket Empty Bucket that needs to be merged.
+	* @param mergeToBucket The Bucket that the empty bucket will be merged with.
+	*/
 	protected void mergeBuckets(Bucket emptyBucket, Bucket mergeToBucket){
 		mergeToBucket.merge();
 		this.dataFileBuckets.remove(emptyBucket);
-		Utils.sortBuckets(this.dataFileBuckets);
+		this.sortBuckets(this.dataFileBuckets);
 	}
 
+	/**
+	* The numbers of keys that can be stored.
+	* @param bitString The bit string of the key generated to search for the bucket it exists in.
+	* @return The Bucket which has the key.
+	*/
 	protected Bucket getBucket(String bitString){
 		for(Bucket b : this.dataFileBuckets){
 			String trimmedVal = Utils.trimToDepth(bitString, b.getLocalDepth());
@@ -69,6 +92,11 @@ class DataFile{
 		return null;
 	}
 
+	/**
+	* Returns the bucket that the input Bucket was split from.
+	* @param bucket The bucket whose other split half we want.
+	* @return The Bucket which the other split half.
+	*/
 	protected Bucket getSisterBucket(Bucket bucket){
 		String bucketName = bucket.getLocalHashValue();
 		char bit = bucketName.charAt(0);
@@ -88,10 +116,35 @@ class DataFile{
 		return null;
 	}
 
+	protected int getMaxLocalDepth(){
+		int localDepth = this.dataFileBuckets.get(0).getLocalDepth();
+		for(int i=1; i<this.dataFileBuckets.size(); i++){
+			if(localDepth < this.dataFileBuckets.get(i).getLocalDepth()){
+				localDepth = this.dataFileBuckets.get(i).getLocalDepth();
+			}
+		}
+		return localDepth;
+	}
+
+	/** 
+	* Sorts the list of Buckets based on the Local Hash Value.
+	* @param buckets The list of buckets to be sorted
+	*/
+	protected static void sortBuckets(ArrayList<Bucket> buckets){
+		Collections.sort(buckets, new SortBitString());
+	}
+
+	/**
+	* Retuns the numbers of buckets currently present in the DataFile.
+	* @return Integer
+	*/
 	protected int numberOfBuckets(){
 		return this.dataFileBuckets.size();
 	}
 
+	/**
+	* String representation of the DataFile.
+	*/
 	public String toString(){
 		StringBuilder s = new StringBuilder();
 		for(Bucket b : this.dataFileBuckets){
@@ -108,5 +161,16 @@ class DataFile{
 			s.append(" |\n");
 		}
 		return s.toString();
+	}
+}
+
+/**
+ * The helper class to provide the sortBuckets method with a comparator method.
+ * @author Karthik Rangasai
+ * @see DataFile#sortBuckets
+ */
+class SortBitString implements Comparator<Bucket>{
+	public int compare(Bucket a, Bucket b){
+		return a.getLocalHashValue().compareTo(b.getLocalHashValue());
 	}
 }

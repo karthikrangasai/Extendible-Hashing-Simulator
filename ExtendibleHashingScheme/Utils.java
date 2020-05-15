@@ -2,8 +2,16 @@ package ExtendibleHashingScheme;
 
 import java.util.*;
 /**
+* This class has static methods that are used as helper functions and 
+* don't belong to any specific class.
+* @author Karthik Rangasai
 */
 class Utils{
+	/**
+	* Generates a 10 bit long Bit String of the given integer.
+	* @param n The integer that has to be converted to a bit string.
+	* @return String
+	*/
 	protected static String generateBitString(int n){
 		// Assuming a 10 bit string.
 		int num = n;
@@ -15,6 +23,12 @@ class Utils{
 		return bitString.toString();
 	}
 
+	/**
+	* Trims the 10 bit long Bit String to a given depth from the LSB.
+	* @param bitString The bit string we wish to trim.
+	* @param depth The number of bits from LSB we should consider.
+	* @return String
+	*/
 	protected static String trimToDepth(String bitString, int depth){
 		if(bitString.length() > depth){
 			return bitString.substring((bitString.length() - depth), bitString.length());
@@ -22,15 +36,5 @@ class Utils{
 			return bitString;
 		}
 		return null;
-	}
-
-	protected static void sortBuckets(ArrayList<Bucket> buckets){
-		Collections.sort(buckets, new SortBitString());
-	}
-}
-
-class SortBitString implements Comparator<Bucket>{
-	public int compare(Bucket a, Bucket b){
-		return a.getLocalHashValue().compareTo(b.getLocalHashValue());
 	}
 }

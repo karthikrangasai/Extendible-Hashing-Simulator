@@ -32,50 +32,92 @@ class EHS_Main {
 			globalDepth = Integer.parseInt(st.nextToken());
 			localDepth = Integer.parseInt(st.nextToken());
 			m = Integer.parseInt(st.nextToken());
-			fileDirectory = new Directory(globalDepth, localDepth, blockingFactor);
+			fileDirectory = new Directory(globalDepth, localDepth, blockingFactor, m);
 			System.out.println(fileDirectory);
 		}
 
-		
-
-		do{
-			System.out.print(">");
-			s = r.readLine();
-			if(s != null && !s.equals("quit")){
-				st = new StringTokenizer(s, " ");
-				if(st.countTokens() < 2){
-					System.out.println("Syntax Error. Please check input.");
-				} else {
-					key = Integer.parseInt(st.nextToken());
-					switch(st.nextToken()){
-						case "I": {
-							System.out.println("Inserting key " + key + ": ");
-							fileDirectory.insertKey(key);
-							break;
+		///////// FOR SCRIPTED INPUT /////////
+		int[] keys = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,9,8,7,6,5,4,3,2,1};
+		char[] ops = {'I','I','I','I','I','I','I','I','I','I','I','I','I','I','I','D','D','D','D','D','D','D','D','D'};
+		if(keys.length == ops.length){
+			int size = keys.length;
+			int index = 0;
+			do{
+				key = keys[index];
+				switch(ops[index]){
+					case 'I': {
+						System.out.println("Inserting key " + key + ": ");
+						fileDirectory.insertKey(key);
+						break;
+					}
+					case 'S': {
+						System.out.println("Searching key " + key + ": ");
+						if(fileDirectory.searchKey(key)){
+							System.out.println("Key is present");
+						} else {
+							System.out.println("Key is absent");
 						}
-						case "S": {
-							System.out.println("Searching key " + key + ": ");
-							if(fileDirectory.searchKey(key)){
-								System.out.println("Key is present");
-							} else {
-								System.out.println("Key is absent");
-							}
-							break;
-						}
-						case "D": {
-							System.out.println("Deleting key " + key + ": ");
-							fileDirectory.deleteKey(key);
-							break;
-						}
-						default : {
-							System.out.println("Please enter a valid operation.");
-							break;
-						}
+						break;
+					}
+					case 'D': {
+						System.out.println("Deleting key " + key + ": ");
+						fileDirectory.deleteKey(key);
+						break;
+					}
+					default : {
+						System.out.println("Please enter a valid operation.");
+						break;
 					}
 				}
-			}
-			System.out.println(fileDirectory);
-		} while(!s.equals("quit"));
+				System.out.println(fileDirectory);
+				++index;
+			} while(index < size);
+		} else {
+			System.out.println("Keys and Operations sizes don't match !!");
+		}
+		
+
+		///////// FOR RUNNING INPUT /////////
+		// do{
+		// 	System.out.print(">");
+		// 	s = r.readLine();
+		// 	if(s != null && !s.equals("quit")){
+		// 		st = new StringTokenizer(s, " ");
+		// 		if(st.countTokens() < 2){
+		// 			System.out.println("Syntax Error. Please check input.");
+		// 		} else {
+		// 			key = Integer.parseInt(st.nextToken());
+		// 			switch(st.nextToken()){
+		// 				case "I": {
+		// 					System.out.println("Inserting key " + key + ": ");
+		// 					fileDirectory.insertKey(key);
+		// 					break;
+		// 				}
+		// 				case "S": {
+		// 					System.out.println("Searching key " + key + ": ");
+		// 					if(fileDirectory.searchKey(key)){
+		// 						System.out.println("Key is present");
+		// 					} else {
+		// 						System.out.println("Key is absent");
+		// 					}
+		// 					break;
+		// 				}
+		// 				case "D": {
+		// 					System.out.println("Deleting key " + key + ": ");
+		// 					fileDirectory.deleteKey(key);
+		// 					break;
+		// 				}
+		// 				default : {
+		// 					System.out.println("Please enter a valid operation.");
+		// 					break;
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	System.out.println(fileDirectory);
+		// } while(!s.equals("quit"));
+
+		
 
 		// int blockingFactor = 3;
 		// int globalDepth = 2;
